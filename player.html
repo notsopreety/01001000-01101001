@@ -38,6 +38,78 @@
             width: 100%;
             height: 100%;
             display: block;
+            transition: filter 0.3s ease;
+        }
+        
+        /* Greyscale effect when paused */
+        .player-container.paused video {
+            filter: grayscale(100%);
+        }
+        
+        /* Smooth click effects for all interactive elements */
+        .icon-btn, .big-play-pause-btn, .progress-bar-container, .speed-menu li {
+            transition: all 0.2s ease;
+            transform: scale(1);
+        }
+        
+        .icon-btn:active, .big-play-pause-btn:active, .speed-menu li:active {
+            transform: scale(0.95);
+        }
+        
+        .icon-btn:hover, .big-play-pause-btn:hover, .speed-menu li:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Volume slider smooth effects */
+        .volume-slider {
+            transition: all 0.3s ease;
+        }
+        
+        .volume-slider:active {
+            transform: scale(1.1);
+        }
+        
+        /* Progress bar smooth effects */
+        .progress-bar-container {
+            transition: all 0.2s ease;
+        }
+        
+        .progress-bar-container:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Seek overlay smooth effects */
+        .seek-overlay {
+            transition: all 0.3s ease;
+        }
+        
+        .seek-overlay:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Speed menu smooth effects */
+        .speed-menu {
+            transition: all 0.2s ease;
+        }
+        
+        .speed-menu li {
+            transition: all 0.15s ease;
+        }
+        
+        /* Enhanced button states */
+        .icon-btn:focus, .big-play-pause-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
+        }
+        
+        /* Smooth opacity transitions for controls */
+        .controls-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        /* Enhanced loading spinner */
+        .loading-spinner {
+            transition: all 0.3s ease;
         }
 
         /* Loading Spinner */
@@ -233,6 +305,9 @@
             list-style: none;
             margin: 0;
             min-width: 80px;
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.15s ease;
         }
         
         .speed-menu li {
@@ -290,6 +365,19 @@
             .volume-controls:hover .volume-slider { width: 60px; }
             .big-play-pause-btn { width: 60px; height: 60px; }
             .big-play-pause-btn svg { width: 30px; height: 30px; }
+            
+            /* Mobile-specific adjustments */
+            .progress-bar-container { height: 12px; }
+            .progress-bar-background, .buffered-bar, .progress-bar { height: 3px; }
+            .progress-bar-container:hover .progress-bar-background,
+            .progress-bar-container:hover .buffered-bar,
+            .progress-bar-container:hover .progress-bar { height: 5px; }
+            
+            .seek-overlay svg {
+                width: 40px;
+                height: 40px;
+                padding: 8px;
+            }
         }
         
         /* Small Mobile */
@@ -303,8 +391,151 @@
             .volume-controls:hover .volume-slider {
                 display: none;
             }
+            
+            /* Even smaller adjustments for very small screens */
+            .bottom-controls { padding: 6px; }
+            .controls-left, .controls-right { gap: 3px; }
+            .big-play-pause-btn { width: 50px; height: 50px; }
+            .big-play-pause-btn svg { width: 25px; height: 25px; }
+            
+            .speed-menu {
+                bottom: 110%;
+                min-width: 70px;
+            }
+            .speed-menu li {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
         }
 
+        /* Portrait orientation adjustments for mobile */
+        @media (max-width: 600px) and (orientation: portrait) {
+            .player-container {
+                /* Ensure proper aspect ratio handling in portrait */
+                aspect-ratio: 16/9;
+                max-height: 100vh;
+                max-width: 100vw;
+            }
+            
+            video {
+                object-fit: contain;
+            }
+        }
+
+        /* Landscape orientation adjustments for mobile */
+        @media (max-width: 600px) and (orientation: landscape) {
+            .player-container {
+                /* Optimize for landscape viewing */
+                aspect-ratio: 16/9;
+                max-height: 100vh;
+                max-width: 100vw;
+            }
+            
+            video {
+                object-fit: contain;
+            }
+            
+            /* Adjust controls for landscape */
+            .bottom-controls {
+                padding: 6px 10px;
+            }
+            
+            .big-play-pause-btn {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Fullscreen mobile optimizations */
+        .player-container:fullscreen {
+            background-color: #000;
+        }
+        
+        .player-container:fullscreen video {
+            object-fit: contain;
+            max-height: 100vh;
+            max-width: 100vw;
+        }
+        
+        /* Webkit fullscreen support */
+        .player-container:-webkit-full-screen {
+            background-color: #000;
+        }
+        
+        .player-container:-webkit-full-screen video {
+            object-fit: contain;
+            max-height: 100vh;
+            max-width: 100vw;
+        }
+        
+        /* Mozilla fullscreen support */
+        .player-container:-moz-full-screen {
+            background-color: #000;
+        }
+        
+        .player-container:-moz-full-screen video {
+            object-fit: contain;
+            max-height: 100vh;
+            max-width: 100vw;
+        }
+        
+        /* Orientation-specific styles */
+        .player-container.landscape .bottom-controls {
+            padding: 8px 12px;
+        }
+        
+        .player-container.portrait .big-play-pause-btn {
+            width: 70px;
+            height: 70px;
+        }
+        
+        .player-container.portrait .big-play-pause-btn svg {
+            width: 35px;
+            height: 35px;
+        }
+        
+        /* Touch-friendly improvements for mobile */
+        @media (max-width: 600px) {
+            .icon-btn {
+                min-width: 44px;
+                min-height: 44px;
+                padding: 8px;
+            }
+            
+            .progress-bar-container {
+                min-height: 44px;
+                padding: 20px 0;
+            }
+            
+            /* Improve touch targets */
+            .volume-controls:hover .volume-slider {
+                width: 80px;
+                height: 20px;
+            }
+            
+            /* Better spacing for touch */
+            .controls-left, .controls-right {
+                gap: 8px;
+            }
+        }
+        
+        /* Prevent text selection on mobile */
+        .player-container {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Prevent right-click context menu */
+        .player-container {
+            -webkit-context-menu: none;
+            -moz-context-menu: none;
+            -ms-context-menu: none;
+            context-menu: none;
+        }
     </style>
 </head>
 <body>
@@ -442,10 +673,16 @@
                 updateIconSet(playIcons, pauseIcons);
                 playerContainer.classList.add('paused');
                 playerContainer.classList.remove('playing');
+                
+                // Add smooth greyscale transition
+                video.style.filter = 'grayscale(100%)';
             } else {
                 updateIconSet(pauseIcons, playIcons);
                 playerContainer.classList.add('playing');
                 playerContainer.classList.remove('paused');
+                
+                // Remove greyscale smoothly
+                video.style.filter = 'grayscale(0%)';
             }
         };
         const updateProgress = () => {
@@ -456,13 +693,26 @@
                 timeDisplay.textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
             }
         };
+        
         const updateBuffer = () => {
             if (video.buffered.length > 0) {
                 bufferedBar.style.width = `${(video.buffered.end(video.buffered.length - 1) / video.duration) * 100}%`;
             }
         };
-        const seek = (e) => video.currentTime = ((e.clientX - progressBarContainer.getBoundingClientRect().left) / progressBarContainer.clientWidth) * video.duration;
+        
+        // Enhanced seek function with smooth feedback
+        const seek = (e) => {
+            const newTime = ((e.clientX - progressBarContainer.getBoundingClientRect().left) / progressBarContainer.clientWidth) * video.duration;
+            video.currentTime = newTime;
+            
+            // Add visual feedback
+            progressBarContainer.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                progressBarContainer.style.transform = 'scale(1)';
+            }, 150);
+        };
         const toggleMute = () => video.muted = !video.muted;
+        
         const updateVolumeUI = () => {
             if (video.muted || video.volume === 0) {
                 updateIconSet([volumeMutedIcon], [volumeHighIcon, volumeLowIcon]);
@@ -475,7 +725,26 @@
                 volumeSlider.value = video.volume;
             }
         };
-        const toggleSpeedMenu = () => speedMenu.style.display = speedMenu.style.display === 'block' ? 'none' : 'block';
+        
+        // Enhanced speed menu toggle with smooth animation
+        const toggleSpeedMenu = () => {
+            const isVisible = speedMenu.style.display === 'block';
+            if (isVisible) {
+                speedMenu.style.opacity = '0';
+                speedMenu.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    speedMenu.style.display = 'none';
+                }, 150);
+            } else {
+                speedMenu.style.display = 'block';
+                speedMenu.style.opacity = '0';
+                speedMenu.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    speedMenu.style.opacity = '1';
+                    speedMenu.style.transform = 'scale(1)';
+                }, 10);
+            }
+        };
         const setPlaybackSpeed = (speed) => {
             video.playbackRate = speed;
             speedBtn.querySelector('span').textContent = `${speed}x`;
@@ -483,14 +752,104 @@
             toggleSpeedMenu();
         };
         const toggleFullscreen = () => {
-            if (!document.fullscreenElement) playerContainer.requestFullscreen().catch(err => console.error(err));
-            else document.exitFullscreen();
+            if (!document.fullscreenElement) {
+                // Request fullscreen
+                if (playerContainer.requestFullscreen) {
+                    playerContainer.requestFullscreen().catch(err => console.error(err));
+                } else if (playerContainer.webkitRequestFullscreen) {
+                    playerContainer.webkitRequestFullscreen().catch(err => console.error(err));
+                } else if (playerContainer.mozRequestFullScreen) {
+                    playerContainer.mozRequestFullScreen().catch(err => console.error(err));
+                } else if (playerContainer.msRequestFullscreen) {
+                    playerContainer.msRequestFullscreen().catch(err => console.error(err));
+                }
+                
+                // For mobile devices, try to lock to landscape orientation
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape').catch(err => {
+                        console.log('Could not lock orientation:', err);
+                    });
+                }
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+                
+                // Unlock orientation when exiting fullscreen
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            }
         };
-        const updateFullscreenIcons = () => updateIconSet(document.fullscreenElement ? [fullscreenCloseIcon] : [fullscreenOpenIcon], document.fullscreenElement ? [fullscreenOpenIcon] : [fullscreenCloseIcon]);
+        const updateFullscreenIcons = () => {
+            const isFullscreen = document.fullscreenElement || 
+                                document.webkitFullscreenElement || 
+                                document.mozFullScreenElement || 
+                                document.msFullscreenElement;
+            updateIconSet(isFullscreen ? [fullscreenCloseIcon] : [fullscreenOpenIcon], 
+                         isFullscreen ? [fullscreenOpenIcon] : [fullscreenCloseIcon]);
+        };
+        
+        // Handle orientation changes
+        const handleOrientationChange = () => {
+            // Adjust player layout based on orientation
+            if (window.innerWidth < 600) {
+                if (window.orientation === 90 || window.orientation === -90) {
+                    // Landscape
+                    playerContainer.classList.add('landscape');
+                    playerContainer.classList.remove('portrait');
+                } else {
+                    // Portrait
+                    playerContainer.classList.add('portrait');
+                    playerContainer.classList.remove('landscape');
+                }
+            }
+        };
+        
+        // Initialize orientation classes
+        const initializeOrientation = () => {
+            handleOrientationChange();
+            
+            // Set initial orientation class
+            if (window.innerWidth < 600) {
+                if (window.orientation === 90 || window.orientation === -90) {
+                    playerContainer.classList.add('landscape');
+                } else {
+                    playerContainer.classList.add('portrait');
+                }
+            }
+        };
+        
+        // Prevent right-click and context menu
+        const preventContextMenu = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        };
+        
+        // Prevent drag and drop
+        const preventDrag = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        };
         const triggerSeekAnimation = (overlay) => {
             overlay.classList.remove('active');
             void overlay.offsetWidth;
             overlay.classList.add('active');
+            
+            // Add additional smooth scaling effect
+            overlay.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                overlay.style.transform = 'scale(1)';
+            }, 200);
         };
         const handleVideoClick = (e) => {
             const currentTime = new Date().getTime();
@@ -555,6 +914,26 @@
         speedMenu.querySelectorAll('li').forEach(item => item.addEventListener('click', () => setPlaybackSpeed(parseFloat(item.dataset.speed))));
         fullscreenBtn.addEventListener('click', toggleFullscreen);
         document.addEventListener('fullscreenchange', updateFullscreenIcons);
+        document.addEventListener('webkitfullscreenchange', updateFullscreenIcons);
+        document.addEventListener('mozfullscreenchange', updateFullscreenIcons);
+        document.addEventListener('MSFullscreenChange', updateFullscreenIcons);
+        
+        // Handle orientation and resize changes
+        window.addEventListener('orientationchange', handleOrientationChange);
+        window.addEventListener('resize', handleOrientationChange);
+        
+        // Prevent right-click and context menu
+        playerContainer.addEventListener('contextmenu', preventContextMenu);
+        video.addEventListener('contextmenu', preventContextMenu);
+        
+        // Prevent drag and drop
+        playerContainer.addEventListener('dragstart', preventDrag);
+        video.addEventListener('dragstart', preventDrag);
+        
+        // Prevent selection and copying
+        playerContainer.addEventListener('selectstart', preventContextMenu);
+        video.addEventListener('selectstart', preventContextMenu);
+        
         playerContainer.addEventListener('mousemove', () => { showControls(); hideControls(); });
         playerContainer.addEventListener('mouseleave', () => !video.paused && playerContainer.classList.remove('controls-visible'));
         playerContainer.addEventListener('mouseenter', showControls);
@@ -563,6 +942,7 @@
         updatePlayPauseIcons();
         updateVolumeUI();
         hideControls();
+        initializeOrientation();
     });
     </script>
 </body>
